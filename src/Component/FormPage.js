@@ -3,42 +3,50 @@ import {Button} from 'react-bootstrap'
 
 export default class FormPage extends React.Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            title: '',
-            globalTitle: '',
-        }
+    state = {
+        title: '',
+        globalTitle: '',
+    }
+
+    onChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+    }
+
+
+    submitForm(e) {
+        e.preventDefault();
+        this.setState({
+            globalTitle: 'Mon formulaire - ' + this.state.title
+        })
+        console.log('Le titre a changé')
+    }
+
+    componentDidMount() {
+        console.log('Formulaire rendu');
+    }
+
+    componentDidUpdate(prevProps) {
+        console.log('Composant mis à jour')
     }
 
     render() {
         return (
             <div className="FormPage container">
-                <form onSubmit={this.submitForm}>
+                <h1>{this.state.globalTitle ? this.state.globalTitle : '??'}</h1>
+                <form onSubmit={(e) => this.submitForm(e)}>
                     <fieldset>
-                        <legend>Your Data</legend>
                         <div className="form-data form-group">
                             <label htmlFor="title">Title</label>
                             <input
                                 type="text"
                                 id="title"
                                 name="title"
-                                onChange={this.onChange}
+                                onChange={(e) => this.onChange(e)}
                                 value={this.state.title}
                                 className="form-control"
-                                required="true"
-                            />
-                        </div>
-                        <div className="form-data form-group">
-                            <label htmlFor="globalTitle">Global Title</label>
-                            <input
-                                type="text"
-                                id="globalTitle"
-                                name="globalTitle"
-                                onChange={this.onChange}
-                                value={this.state.globalTitle}
-                                className="form-control"
-                                required="true"
+                                required
                             />
                         </div>
                         <hr/>
